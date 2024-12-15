@@ -1,0 +1,80 @@
+* {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+.heading {
+  height: 4rem;
+  color: white;
+  background-color: black;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  overflow-x: auto;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 1000px;
+  overflow-x: auto;
+}
+
+.btn {
+  background-color: rgb(231, 204, 163);
+  border: none;
+  padding: 5px 15px;
+  border-radius: 20px;
+  margin: 0 5px;
+}
+
+.btn:hover {
+  box-shadow: 1px 1px #ffffff, 1px 1px #ffffff, 2px 2px #ffffff, 2px 2px #ffffff, 2px 2px #ffffff, 3px 3px #ffffff, 3px 3px #ffffff, 4px 4px #ffffff;
+}
+
+.btn:focus {
+  scale: 1.1;
+}
+
+.entry {
+  margin: 0;
+  padding: 3px;
+  border: 1.5px solid gray;
+  /* aspect-ratio maintaines the square shape of the div */
+  aspect-ratio: 1; 
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+}
+
+.col {}
+
+.visited {
+  background-color: rgb(235, 229, 50);
+  border-color: rgb(116, 126, 2);
+}
+
+.start {
+  background-color: rgb(93, 235, 50);
+  border-color: rgb(2, 126, 10);
+}
+
+.destination {
+  background-color: rgb(50, 232, 235);
+  border-color: rgb(2, 126, 126);
+}
+
+.wall {
+  background-color: rgb(235, 50, 50);
+  border-color: rgb(126, 2, 2);
+}
+
+.grid {
+  margin: 30px;
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(auto-fit, minmax(21px, 1fr));
+}
