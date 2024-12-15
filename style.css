@@ -22,22 +22,6 @@
   overflow-x: auto;
 }
 
-.btn {
-  background-color: rgb(231, 204, 163);
-  border: none;
-  padding: 5px 15px;
-  border-radius: 20px;
-  margin: 0 5px;
-}
-
-.btn:hover {
-  box-shadow: 1px 1px #ffffff, 1px 1px #ffffff, 2px 2px #ffffff, 2px 2px #ffffff, 2px 2px #ffffff, 3px 3px #ffffff, 3px 3px #ffffff, 4px 4px #ffffff;
-}
-
-.btn:focus {
-  scale: 1.1;
-}
-
 .entry {
   margin: 0;
   padding: 3px;
@@ -70,6 +54,23 @@
 .wall {
   background-color: rgb(235, 50, 50);
   border-color: rgb(126, 2, 2);
+}
+
+
+.btn {
+  background-color: rgb(231, 204, 163);
+  border: none;
+  padding: 5px 15px;
+  border-radius: 20px;
+  margin: 0 5px;
+}
+
+.btn:hover {
+  box-shadow: 1px 1px #ffffff, 1px 1px #ffffff, 2px 2px #ffffff, 2px 2px #ffffff, 2px 2px #ffffff, 3px 3px #ffffff, 3px 3px #ffffff, 4px 4px #ffffff;
+}
+
+.btn:focus {
+  scale: 1.1;
 }
 
 .grid {
