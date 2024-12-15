@@ -31,9 +31,9 @@
 }
 
 .entry {
-  margin: 0;
+  margin: 0.5px;
   padding: 3px;
-  border: 1px solid gray;
+  border: 1.5px solid gray;
   width: 100%;
   /* aspect-ratio maintaines the square shape of the div */
   aspect-ratio: 1; 
@@ -42,8 +42,6 @@
   box-sizing: border-box;
 
 }
-
-.col {}
 
 .row {
   display: flex;
