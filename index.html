@@ -39,10 +39,8 @@
         }
       }
 
-      for (let i = 0; i < 42; i++) {
-        const col = document.createElement("div");
-        col.classList.add('col');
-        for (let j = 0; j < 12; j++) {
+      let j = 0;
+      for (let i = 0; i < 504; i++) {
           const node = document.createElement("div");
           node.classList.add("entry");
           node.addEventListener("click", () => {
@@ -57,7 +55,8 @@
               node.classList.remove("destination", "wall");
               node.classList.add(entryType);
               startNode = node;
-              console.log(node.getAttributeNames());
+              console.log('c: ', node.getAttribute('col'), 'r: ', node.getAttribute('row'));
+              console.log('mat: ', mat[node.getAttribute('row')][node.getAttribute('col')]);
             } else if (entryType === "destination") {
               if (node == startNode) {
                 startNode = null;
@@ -68,7 +67,8 @@
               node.classList.remove("start", "wall");
               node.classList.add(entryType);
               destinationNode = node;
-              console.log(node.getAttributeNames());
+              console.log('c: ', node.getAttribute('col'), 'r: ', node.getAttribute('row'));
+              console.log('mat: ', mat[node.getAttribute('row')][node.getAttribute('col')]);
             } else if (entryType === "wall") {
               if (node == startNode) {
                 startNode = null;
@@ -78,23 +78,20 @@
               }
               node.classList.remove("destination", "start");
               node.classList.toggle(entryType);
-              console.log(node.getAttributeNames());
+              mat[node.getAttribute('row')][mat[node.getAttribute('col')]] = mat[node.getAttribute('row')][mat[node.getAttribute('col')]]===1?-1:1;
+              console.log('c: ', node.getAttribute('col'), 'r: ', node.getAttribute('row'));
+              console.log('mat: ', mat[node.getAttribute('row')][node.getAttribute('col')]);
             }
           });
-          node.setAttribute("col", j);
-          node.setAttribute("col", i);
-          col.appendChild(node);
-        }
-        grid.appendChild(col);
+          node.setAttribute("col", i%42);
+          node.setAttribute("row", Math.floor(i/42));
+          grid.appendChild(node);
       }
 
       function setEntryType(type) {
         entryType = type;
       }
 
-      var text = document.createTextNode("screen width: " + width + "+" + lim);
-      const lt = document.getElementById("screensize");
-      lt.appendChild(text);
     </script>
   </body>
 </html>
