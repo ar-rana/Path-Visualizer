@@ -18,14 +18,16 @@
 .container {
   margin-left: auto;
   margin-right: auto;
+  padding: 30px;
   width: 1000px;
   overflow-x: auto;
 }
 
 .entry {
-  margin: 0;
+  margin: 0.5px;
   padding: 3px;
   border: 1.5px solid gray;
+  width: 100%;
   /* aspect-ratio maintaines the square shape of the div */
   aspect-ratio: 1; 
   align-items: center;
@@ -34,7 +36,9 @@
 
 }
 
-.col {}
+.row {
+  display: flex;
+}
 
 .visited {
   background-color: rgb(235, 229, 50);
@@ -55,7 +59,6 @@
   background-color: rgb(235, 50, 50);
   border-color: rgb(126, 2, 2);
 }
-
 
 .btn {
   background-color: rgb(231, 204, 163);
