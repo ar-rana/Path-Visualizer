@@ -78,7 +78,7 @@
               }
               node.classList.remove("destination", "start");
               node.classList.toggle(entryType);
-              mat[node.getAttribute('row')][mat[node.getAttribute('col')]] = mat[node.getAttribute('row')][mat[node.getAttribute('col')]]===1?-1:1;
+              mat[node.getAttribute('row')][node.getAttribute('col')] = mat[node.getAttribute('row')][node.getAttribute('col')]===1?-1:1;
               console.log('c: ', node.getAttribute('col'), 'r: ', node.getAttribute('row'));
               console.log('mat: ', mat[node.getAttribute('row')][node.getAttribute('col')]);
             }
