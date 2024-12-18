@@ -1,9 +1,10 @@
-function dfs(queue, mat, visited, i, j, path) {
+function dfs(queue, mat, visited, i, j, path, result) {
     if (i<0 || j<0 || i>=mat.length || j>=mat[0].length || visited[i][j]) {
         return;
     }
     if (mat[i][j] == -1) return; // wall entry
     if (mat[i][j] == 1) { // destination entry
+        result = path.getStack();
         return;
     }
 

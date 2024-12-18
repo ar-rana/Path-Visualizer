@@ -5,35 +5,35 @@ class Stack {
     }
 
     push(item) {
-        this.stack[++top] = item;
+        this.stack[++this.top] = item;
     }
 
     pop() {
-        if (top == -1) return null;
-        item = this.stack[top--];
+        if (this.top == -1) return null;
+        let item = this.stack[this.top--];
         return item;
     }
 
     peek() {
-        if (top === -1) return null;
-        return this.stack[top];
+        if (this.top === -1) return null;
+        return this.stack[this.top];
     }
 
     isEmpty() {
-        return top === -1;
+        return this.top === -1;
     }
 
     getVal(idx) {
-        if (idx > top || top === -1) return null;
+        if (idx > this.top || this.top === -1) return null;
         return this.stack[idx];
     }
 
     size() {
-        return top + 1;
+        return this.top + 1;
     }
 
     getStack() {
-        arr = [];
+        let arr = [];
         for (let i=0;i<=this.top;i++) {
             arr[i] = this.stack[i];
         }
@@ -41,7 +41,7 @@ class Stack {
         return arr;
     }
 
-    printStack() {
+    printArray() {
         return this.stack;
     }
 }

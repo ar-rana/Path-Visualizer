@@ -1,8 +1,8 @@
-function bfs(queue, mat, visited, i, j) {
-    queue.enqueue([i, j]);
+function bfs(queue, queue2, mat, visited, i, j) {
+    queue2.enqueue([i, j]);
 
-    while(!queue.isEmpty()) {
-        pos = queue.dequeue();
+    while(!queue2.isEmpty()) {
+        pos = queue2.dequeue();
         m = pos[0];
         n = pos[1];
 
@@ -13,11 +13,12 @@ function bfs(queue, mat, visited, i, j) {
         if (mat[m][n] == 1) break;
 
         visited[m][n] = true;
+        queue.enqueue([m, n]);
 
-        q.enque([m + 1, n]); 
-        q.enque([m, n + 1]); 
-        q.enque([m - 1, n]); 
-        q.enque([m, n - 1]);
+        queue2.enque([m, n + 1]); 
+        queue2.enque([m + 1, n]); 
+        queue2.enque([m - 1, n]); 
+        queue2.enque([m, n - 1]);
     }
     
 }
