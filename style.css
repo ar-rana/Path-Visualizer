@@ -54,7 +54,9 @@
   display: flex;
 }
 
-.visited {
+.visited {}
+
+.path {
   background-color: rgb(235, 229, 50);
   border-color: rgb(116, 126, 2);
 }

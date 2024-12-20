@@ -45,3 +45,5 @@ class Stack {
         return this.stack;
     }
 }
+
+export default Stack;

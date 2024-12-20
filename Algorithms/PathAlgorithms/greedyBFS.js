@@ -35,7 +35,7 @@ function greedyBFS(queue, path, mat, visited, i, j, m, n) {
     visited[k][l] = true;
 
     if (k===m && l===n) {
-        return path;
+      return path;
     }
     let index = [
         [k+1, l], 
@@ -64,3 +64,6 @@ function greedyBFS(queue, path, mat, visited, i, j, m, n) {
   }
   return null;
 }
+
+
+export default callGreedyBFS;
