@@ -140,12 +140,27 @@ function callAlgo() {
 }
 
 function runAnimation(list) {
-  for (let i=0;i<list.length;i++) {
+  let len = list.length;
+  for (let i=0;i<len;i++) {
     let r = list[i][0];
     let c = list[i][1];
-    console.log("list: ", list);
     const entry = document.querySelector(`[row="${r}"][col="${c}"]`);
-    console.log("ele: ", entry);
+    // console.log("ele: ", entry);
+    if (i === 0 || i === len-1) {
+      entry.classList.remove("destination", "start");
+      entry.classList.add("end");
+    }
+    setTimeout(() => {
+      setClass(i, entry, len-1);
+    }, i * 150);
+
+  }
+}
+
+function setClass(i, entry, end) {
+  if (i !=0) {
+    entry.classList.remove("destination", "start");
+    entry.classList.add("path");
   }
 }
 
