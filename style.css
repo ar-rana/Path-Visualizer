@@ -78,7 +78,7 @@
 }
 
 .end {
-  background-color: #D91656;
+  background-color: yellow;
   /* animation: pathAnimation 2.5s forwards;
   animation-delay: 1s; */
 }
@@ -128,7 +128,7 @@
   0% {
     background-color: #e7f707;
   }
-  15% {
+  10% {
     background-color: #CDC1FF;
   }
   100% {

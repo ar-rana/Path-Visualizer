@@ -1,5 +1,6 @@
 import Queue from "./Algorithms/Queue/Queue.js";
 import Stack from "./Algorithms/Stack/Stack.js";
+import PriorityQueue from "./Algorithms/Queue/priorityQueue.js";
 
 import dfs from "./Algorithms/PathAlgorithms/DFS.js";
 import bfs from "./Algorithms/PathAlgorithms/BFS.js";
@@ -127,13 +128,20 @@ function callAlgo() {
     console.log("len: ", result.length);
     console.log("queue: ", queue.getQueue());
 
-    runAnimation(result[0]);
+    runAnimation(result[0]); // result will have multiple queue's one of them willbe the shortest path through DFS
   } else if (text === "breathFirstSearch") {
     let queue = new Queue();
     let path = new Queue();
     bfs(path, queue, mat, visited, i, j, m, n)
     console.log("path: ", path.getQueue());
     console.log("queue: ", queue.getQueue());
+
+    runAnimation(path.getQueue());
+  } else if (text === "greedyBreathFirstSearch") {
+    let queue = new PriorityQueue();
+    let path = new Queue();
+    path = callGreedyBFS(queue, path, mat, visited, i, j, m, n);
+    console.log("path: ", path.getQueue());
 
     runAnimation(path.getQueue());
   }
@@ -152,13 +160,13 @@ function runAnimation(list) {
     }
     setTimeout(() => {
       setClass(i, entry, len-1);
-    }, i * 150);
+    }, i * 70);
 
   }
 }
 
 function setClass(i, entry, end) {
-  if (i !=0) {
+  if (i !=0 && i!=end) {
     entry.classList.remove("destination", "start");
     entry.classList.add("path");
   }
