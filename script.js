@@ -15,88 +15,114 @@ const selectOptions = document.getElementById("selectTab");
 let entryType = "";
 let startNode = null;
 let destinationNode = null;
+let speed = 70;
 
-for (let i = 0; i < 12; i++) {
-  mat[i] = [];
-  for (let j = 0; j < 42; j++) {
-    mat[i][j] = 1;
+const row = 12;
+const col = 42;
+let entries = row * col;
+
+
+setMatrix();
+setMatrixNodes();
+
+function setMatrix() {
+  for (let i = 0; i < row; i++) {
+    mat[i] = [];
+    for (let j = 0; j < col; j++) {
+      mat[i][j] = 1;
+    }
   }
 }
 
-for (let i = 0; i < 504; i++) {
-  const node = document.createElement("div");
-  node.classList.add("entry");
-  node.addEventListener("click", () => {
+function setMatrixNodes() {
+  for (let i = 0; i < entries; i++) {
+    const node = document.createElement("div");
     node.classList.add("entry");
-    if (entryType === "start") {
-      if (node == destinationNode) {
-        destinationNode = null;
+    node.addEventListener("click", () => {
+      node.classList.add("entry");
+      if (entryType === "start") {
+        if (node == destinationNode) {
+          destinationNode = null;
+        }
+        if (startNode) {
+          startNode.classList.remove("start");
+        }
+        node.classList.remove("destination", "wall");
+        node.classList.add(entryType);
+        startNode = node;
+        mat[node.getAttribute("row")][node.getAttribute("col")] = 1;
+        console.log(
+          "c: ",
+          node.getAttribute("col"),
+          "r: ",
+          node.getAttribute("row")
+        );
+        console.log(
+          "mat: ",
+          mat[node.getAttribute("row")][node.getAttribute("col")]
+        );
+      } else if (entryType === "destination") {
+        if (node == startNode) {
+          startNode = null;
+        }
+        if (destinationNode) {
+          destinationNode.classList.remove("destination");
+        }
+        node.classList.remove("start", "wall");
+        node.classList.add(entryType);
+        destinationNode = node;
+        mat[node.getAttribute("row")][node.getAttribute("col")] = 1;
+        console.log(
+          "c: ",
+          node.getAttribute("col"),
+          "r: ",
+          node.getAttribute("row")
+        );
+        console.log(
+          "mat: ",
+          mat[node.getAttribute("row")][node.getAttribute("col")]
+        );
+      } else if (entryType === "wall") {
+        if (node == startNode) {
+          startNode = null;
+        }
+        if (node == destinationNode) {
+          destinationNode = null;
+        }
+        node.classList.remove("destination", "start");
+        node.classList.toggle(entryType);
+        mat[node.getAttribute("row")][node.getAttribute("col")] =
+          mat[node.getAttribute("row")][node.getAttribute("col")] === 1 ? -1 : 1;
+        console.log(
+          "c: ",
+          node.getAttribute("col"),
+          "r: ",
+          node.getAttribute("row")
+        );
+        console.log(
+          "mat: ",
+          mat[node.getAttribute("row")][node.getAttribute("col")]
+        );
       }
-      if (startNode) {
-        startNode.classList.remove("start");
-      }
-      node.classList.remove("destination", "wall");
-      node.classList.add(entryType);
-      startNode = node;
-      mat[node.getAttribute("row")][node.getAttribute("col")] = 1;
-      console.log(
-        "c: ",
-        node.getAttribute("col"),
-        "r: ",
-        node.getAttribute("row")
-      );
-      console.log(
-        "mat: ",
-        mat[node.getAttribute("row")][node.getAttribute("col")]
-      );
-    } else if (entryType === "destination") {
-      if (node == startNode) {
-        startNode = null;
-      }
-      if (destinationNode) {
-        destinationNode.classList.remove("destination");
-      }
-      node.classList.remove("start", "wall");
-      node.classList.add(entryType);
-      destinationNode = node;
-      mat[node.getAttribute("row")][node.getAttribute("col")] = 1;
-      console.log(
-        "c: ",
-        node.getAttribute("col"),
-        "r: ",
-        node.getAttribute("row")
-      );
-      console.log(
-        "mat: ",
-        mat[node.getAttribute("row")][node.getAttribute("col")]
-      );
-    } else if (entryType === "wall") {
-      if (node == startNode) {
-        startNode = null;
-      }
-      if (node == destinationNode) {
-        destinationNode = null;
-      }
-      node.classList.remove("destination", "start");
-      node.classList.toggle(entryType);
-      mat[node.getAttribute("row")][node.getAttribute("col")] =
-        mat[node.getAttribute("row")][node.getAttribute("col")] === 1 ? -1 : 1;
-      console.log(
-        "c: ",
-        node.getAttribute("col"),
-        "r: ",
-        node.getAttribute("row")
-      );
-      console.log(
-        "mat: ",
-        mat[node.getAttribute("row")][node.getAttribute("col")]
-      );
-    }
-  });
-  node.setAttribute("col", i % 42);
-  node.setAttribute("row", Math.floor(i / 42));
-  grid.appendChild(node);
+    });
+    node.setAttribute("col", i % col);
+    node.setAttribute("row", Math.floor(i / col));
+    grid.appendChild(node);
+  }
 }
+
+function resetMatrix() {
+  setMatrix();
+  const entries = grid.children;
+  for (let entry of entries) {
+    entry.classList.remove("wall", "path", "endPoint");
+  }
+  // TO-DO : Design Decision
+  // wont need this if you dont apply 'endPoint' class at runAnimation()
+  startNode.classList.add("start");
+  destinationNode.classList.add("destination");
+}
+
 
 function callAlgo() {
   let i;
@@ -113,9 +139,9 @@ function callAlgo() {
   m = Number(destinationNode.getAttribute("row"));
   n = Number(destinationNode.getAttribute("col"));
 
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < row; i++) {
     visited[i] = [];
-    for (let j = 0; j < 42; j++) {
+    for (let j = 0; j < col; j++) {
       visited[i][j] = false;
     }
   }
@@ -140,7 +166,7 @@ function callAlgo() {
   } else if (text === "greedyBreathFirstSearch") {
     let queue = new PriorityQueue();
     let path = new Queue();
-    path = callGreedyBFS(queue, path, mat, visited, i, j, m, n);
+    path = callGreedyBFS(queue, path, mat, visited, i, j, m, n, row, col);
     console.log("path: ", path.getQueue());
 
     runAnimation(path.getQueue());
@@ -156,11 +182,12 @@ function runAnimation(list) {
     // console.log("ele: ", entry);
     if (i === 0 || i === len-1) {
       entry.classList.remove("destination", "start");
-      entry.classList.add("end");
+      entry.classList.add("endPoint");
+      continue;
     }
     setTimeout(() => {
       setClass(i, entry, len-1);
-    }, i * 70);
+    }, i * speed);
 
   }
 }
@@ -176,5 +203,12 @@ function setEntryType(type) {
   entryType = type;
 }
 
+function setSpeed(value) {
+  console.log(value);
+  speed = value;
+}
+
 window.setEntryType = setEntryType;
 window.callAlgo = callAlgo;
+window.resetMatrix = resetMatrix;
+window.setSpeed = setSpeed;

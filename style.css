@@ -16,9 +16,15 @@
 }
 
 .selectionMenu {
-  margin: 0 30px;
+  padding: 12px 0px;
   display: flex;
   justify-content: space-around;
+}
+
+.optionsMenu {
+  padding: 12px 0px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .selectTab {
@@ -32,15 +38,14 @@
 .container {
   margin-left: auto;
   margin-right: auto;
-  padding: 25px;
   width: 1000px;
   overflow-x: auto;
 }
 
 .entry {
-  margin: 1px;
-  padding: 3px;
-  border: 1.5px solid gray;
+  margin: 0;
+  padding: 0;
+  border: 1.3px solid gray;
   width: 100%;
   height: 100%;
   /* aspect-ratio maintaines the square shape of the div */
@@ -77,7 +82,7 @@
   border-color: rgb(126, 2, 2);
 }
 
-.end {
+.endPoint {
   background-color: yellow;
   /* animation: pathAnimation 2.5s forwards;
   animation-delay: 1s; */
@@ -118,6 +123,7 @@
 }
 
 .grid {
+  border: 1.3px solid gray;
   margin: 30px;
   display: grid;
   gap: 1px;
@@ -138,7 +144,7 @@
 
 @keyframes endPointAnimation {
   0% {
-    background-color: #e7f707;
+    background-color: yellow;
   }
   10% {
     background-color: #D91656;
