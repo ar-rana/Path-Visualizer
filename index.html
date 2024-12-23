@@ -27,6 +27,7 @@
         </select> -->
         <!-- <span>Select Speed of PathVizualizer:</span> -->
         <select class="selectTab" onchange="setSpeed(Number(this.value))">
+          <option value="40">Select Speed</option>
           <option value="40">Fast</option>
           <option value="100">Medium</option>
           <option value="180">Slow</option>
@@ -48,143 +49,12 @@
           <option value="aStarAlgorithm">A* Algorithm</option>
           <option value="dijkastraAlgorithm">Dijstra's Algorithm</option>
           <option value="minimumSpanningTree">
-            Minimum Spanning Tree Algorithm
+            Kruskal's Algorithm
           </option>
         </select>
         <button class="btn2" id="btn2" onclick="callAlgo()">Run Algorithm</button>
       </div>
     </div>
     <script src="./script.js" type="module"></script>
-
-    <!-- <script>
-      let mat = [];
-
-      const grid = document.getElementById("grid");
-      const screen = document.getElementById("screen");
-      const selectOptions = document.getElementById("selectTab");
-
-      let entryType = "";
-      let startNode = null;
-      let destinationNode = null;
-
-      for (let i = 0; i < 12; i++) {
-        mat[i] = [];
-        for (let j = 0; j < 42; j++) {
-          mat[i][j] = 1;
-        }
-      }
-
-      let j = 0;
-      for (let i = 0; i < 504; i++) {
-        const node = document.createElement("div");
-        node.classList.add("entry");
-        node.addEventListener("click", () => {
-          node.classList.add("entry");
-          if (entryType === "start") {
-            if (node == destinationNode) {
-              destinationNode = null;
-            }
-            if (startNode) {
-              startNode.classList.remove("start");
-            }
-            node.classList.remove("destination", "wall");
-            node.classList.add(entryType);
-            startNode = node;
-            console.log(
-              "c: ",
-              node.getAttribute("col"),
-              "r: ",
-              node.getAttribute("row")
-            );
-            console.log(
-              "mat: ",
-              mat[node.getAttribute("row")][node.getAttribute("col")]
-            );
-          } else if (entryType === "destination") {
-            if (node == startNode) {
-              startNode = null;
-            }
-            if (destinationNode) {
-              destinationNode.classList.remove("destination");
-            }
-            node.classList.remove("start", "wall");
-            node.classList.add(entryType);
-            destinationNode = node;
-            console.log(
-              "c: ",
-              node.getAttribute("col"),
-              "r: ",
-              node.getAttribute("row")
-            );
-            console.log(
-              "mat: ",
-              mat[node.getAttribute("row")][node.getAttribute("col")]
-            );
-          } else if (entryType === "wall") {
-            if (node == startNode) {
-              startNode = null;
-            }
-            if (node == destinationNode) {
-              destinationNode = null;
-            }
-            node.classList.remove("destination", "start");
-            node.classList.toggle(entryType);
-            mat[node.getAttribute("row")][node.getAttribute("col")] =
-              mat[node.getAttribute("row")][node.getAttribute("col")] === 1
-                ? -1
-                : 1;
-            console.log(
-              "c: ",
-              node.getAttribute("col"),
-              "r: ",
-              node.getAttribute("row")
-            );
-            console.log(
-              "mat: ",
-              mat[node.getAttribute("row")][node.getAttribute("col")]
-            );
-          }
-        });
-        node.setAttribute("col", i % 42);
-        node.setAttribute("row", Math.floor(i / 42));
-        grid.appendChild(node);
-      }
-
-      function callAlgo() {
-        let i;
-        let j;
-        let m;
-        let n;
-        let visited = [];
-        var text = selectOptions.options[selectOptions.selectedIndex].value;
-        if (text === "") return;
-        console.log("option: ", text);
-        if (startNode === null || destinationNode === null) return;
-        i = startNode.getAttribute("row");
-        j = startNode.getAttribute("col");
-        i = destinationNode.getAttribute("row");
-        j = destinationNode.getAttribute("col");
-
-        for (let i = 0; i < 12; i++) {
-          visited[i] = [];
-          for (let j = 0; j < 42; j++) {
-            visited[i][j] = false;
-          }
-        }
-        
-        if (text === "deapthFirstSearch") {
-          let result = [];
-          let queue = new Queue();
-          let path = new Stack();
-          dfs(queue, mat, visited, i, j, path, result, m, n);
-          console.log(result);
-          console.log(queue.getArray());
-        }
-      }
-
-      function setEntryType(type) {
-        entryType = type;
-      }
-    </script> -->
   </body>
 </html>

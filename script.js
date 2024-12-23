@@ -6,6 +6,7 @@ import dfs from "./Algorithms/PathAlgorithms/DFS.js";
 import bfs from "./Algorithms/PathAlgorithms/BFS.js";
 import callGreedyBFS from "./Algorithms/PathAlgorithms/greedyBFS.js";
 import callDijkstra from "./Algorithms/PathAlgorithms/Dijkstra.js";
+import callKruskal from "./Algorithms/PathAlgorithms/kruskal.js";
 
 let mat = [];
 let running = false;
@@ -126,8 +127,8 @@ function resetMatrix() {
   }
   // TO-DO : Design Decision
   // wont need this if you dont apply 'endPoint' class at runAnimation()
-  startNode.classList.add("start");
-  destinationNode.classList.add("destination");
+  if (startNode) startNode.classList.add("start");
+  if (destinationNode) destinationNode.classList.add("destination");
 }
 
 
@@ -155,10 +156,12 @@ function callAlgo() {
     }
   }
 
+  let copy = mat;
+
   if (text === "deapthFirstSearch") {
     let result = [];
     let queue = new Queue();
-    dfs(queue, mat, visited, i, j, result, m, n);
+    dfs(queue, copy, visited, i, j, result, m, n);
     console.log("result: ", result[0]);
     console.log("len: ", result.length);
     console.log("queue: ", queue.getQueue());
@@ -167,7 +170,7 @@ function callAlgo() {
   } else if (text === "breathFirstSearch") {
     let queue = new Queue();
     let path = new Queue();
-    bfs(path, queue, mat, visited, i, j, m, n)
+    bfs(path, queue, copy, visited, i, j, m, n)
     console.log("path: ", path.getQueue());
     console.log("queue: ", queue.getQueue());
 
@@ -175,7 +178,7 @@ function callAlgo() {
   } else if (text === "greedyBreathFirstSearch") {
     let queue = new PriorityQueue();
     let path = new Queue();
-    path = callGreedyBFS(queue, path, mat, visited, i, j, m, n, row, col);
+    path = callGreedyBFS(queue, path, copy, visited, i, j, m, n, row, col);
     console.log("path: ", path.getQueue());
 
     runAnimation(path.getQueue());
@@ -183,8 +186,15 @@ function callAlgo() {
     let queue = new PriorityQueue();
     let shortestPath = [];
     let path = new PriorityQueue();
-    let nodes = callDijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col);
+    let nodes = callDijkstra(queue, shortestPath, path, copy, visited, i, j, m, n, row, col);
     console.log("shortestPath: ", shortestPath);
+    console.log("nodes: ", nodes);
+
+    runAnimation(nodes);
+  } else if (text === "minimumSpanningTree") {
+    let queue = new PriorityQueue();
+    let path = new Queue();
+    let nodes = callKruskal(queue, path, mat, visited, i, j, m, n, row, col);
     console.log("nodes: ", nodes);
 
     runAnimation(nodes);
@@ -198,10 +208,12 @@ function generateRandomWalls(row, col, mat) {
       let int = getRandomInteger(-1, 1);
       if (int === -1) {
         const entry = document.querySelector(`[row="${i}"][col="${j}"]`);
-        if (entry == startNode || entry == destinationNode) continue;
-        else {
+        if (entry != null && (entry == startNode || entry == destinationNode)) continue;
+        if (entry != null) {
           mat[i][j] = -1;
           entry.classList.toggle("wall");
+        } else {
+          mat[i][j] = 1;
         }
       } else {
         mat[i][j] = 1;
@@ -217,7 +229,7 @@ function runAnimation(list) {
     let c = list[i][1];
     const entry = document.querySelector(`[row="${r}"][col="${c}"]`);
     // console.log("ele: ", entry);
-    if (entry == startNode || entry == destinationNode) {
+    if (entry != null && (entry == startNode || entry == destinationNode)) {
       entry.classList.remove("destination", "start");
       entry.classList.add("endPoint");
       continue;
@@ -228,7 +240,6 @@ function runAnimation(list) {
       }, i * speed)
     );
   }
-  running = false;
 }
 
 function clearAnimations() {

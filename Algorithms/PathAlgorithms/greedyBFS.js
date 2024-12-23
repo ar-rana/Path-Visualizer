@@ -1,7 +1,7 @@
-function setMatrix(mat, m, n, row, col) {
+function setMatrix(mat, m, n, row, col) { // this is using euclidian distance formulae 
   for (let i = 0; i < row; i++) {
     for (let j = 0; j < col; j++) {
-      if (mat[i][j] === -1 || mat[i][j] === Number.MAX_SAFE_INTEGER) {
+      if (mat[i][j] === -1) {
         mat[i][j] = Number.MAX_SAFE_INTEGER;
       } else {
         let r = Math.abs(m - i);
