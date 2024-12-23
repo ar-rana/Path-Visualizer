@@ -5,8 +5,10 @@ import PriorityQueue from "./Algorithms/Queue/priorityQueue.js";
 import dfs from "./Algorithms/PathAlgorithms/DFS.js";
 import bfs from "./Algorithms/PathAlgorithms/BFS.js";
 import callGreedyBFS from "./Algorithms/PathAlgorithms/greedyBFS.js";
+import callDijkstra from "./Algorithms/PathAlgorithms/Dijkstra.js";
 
 let mat = [];
+let running = false;
 
 const grid = document.getElementById("grid");
 const screen = document.getElementById("screen");
@@ -15,7 +17,7 @@ const selectOptions = document.getElementById("selectTab");
 let entryType = "";
 let startNode = null;
 let destinationNode = null;
-let speed = 70;
+let speed = 40;
 
 const row = 12;
 const col = 42;
@@ -112,6 +114,9 @@ function setMatrixNodes() {
 }
 
 function resetMatrix() {
+  if (running) {
+    running = false;
+  };
   setMatrix();
   const entries = grid.children;
   for (let entry of entries) {
@@ -125,6 +130,8 @@ function resetMatrix() {
 
 
 function callAlgo() {
+  if (running) return;
+  running = true;
   let i;
   let j;
   let m;
@@ -170,6 +177,15 @@ function callAlgo() {
     console.log("path: ", path.getQueue());
 
     runAnimation(path.getQueue());
+  } else if (text === "dijkastraAlgorithm") {
+    let queue = new PriorityQueue();
+    let shortestPath = [];
+    let path = new PriorityQueue();
+    let nodes = callDijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col);
+    console.log("shortestPath: ", shortestPath);
+    console.log("nodes: ", nodes);
+
+    runAnimation(nodes);
   }
 }
 
@@ -180,7 +196,7 @@ function runAnimation(list) {
     let c = list[i][1];
     const entry = document.querySelector(`[row="${r}"][col="${c}"]`);
     // console.log("ele: ", entry);
-    if (i === 0 || i === len-1) {
+    if (entry == startNode || entry == destinationNode) {
       entry.classList.remove("destination", "start");
       entry.classList.add("endPoint");
       continue;
@@ -188,8 +204,8 @@ function runAnimation(list) {
     setTimeout(() => {
       setClass(i, entry, len-1);
     }, i * speed);
-
   }
+  running = false;
 }
 
 function setClass(i, entry, end) {

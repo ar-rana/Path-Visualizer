@@ -63,8 +63,8 @@
 }
 
 .path {
-  animation: pathAnimation 2.5s forwards;
-  animation-delay: 1s;
+  animation: pathAnimation 2s forwards;
+  animation-delay: 0.5s;
 }
 
 .start {
@@ -94,16 +94,14 @@
   padding: 5px 15px;
   border-radius: 20px;
   margin: 0 5px;
-  transition: transform 0.2s ease;
-}
-
-.btn:hover {
   box-shadow: 1px 1px #ffffff, 1px 1px #ffffff, 2px 2px #ffffff, 2px 2px #ffffff,
     2px 2px #ffffff, 3px 3px #ffffff, 3px 3px #ffffff, 4px 4px #ffffff;
 }
 
-.btn:focus {
-  transform: translateY(4px);
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0px 0px black, 0px 0px black, 1px 1px black, 1px 1px black,
+    1px 1px black, 2px 2px black, 2px 2px black, 3px 3px black;
 }
 
 .btn2 {
@@ -132,10 +130,15 @@
 
 @keyframes pathAnimation {
   0% {
-    background-color: #e7f707;
+    background-color: yellow;
+    scale: 1.5;
   }
-  10% {
-    background-color: #CDC1FF;
+  5% {
+    background-color: yellow;
+  }
+  6% {
+    background-color: #c5b7ff;
+    scale: 1;
   }
   100% {
     background-color: #a294f9;
