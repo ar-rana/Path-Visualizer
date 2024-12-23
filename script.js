@@ -18,6 +18,7 @@ let entryType = "";
 let startNode = null;
 let destinationNode = null;
 let speed = 40;
+let timeOuts = [];
 
 const row = 12;
 const col = 42;
@@ -117,6 +118,7 @@ function resetMatrix() {
   if (running) {
     running = false;
   };
+  clearAnimations();
   setMatrix();
   const entries = grid.children;
   for (let entry of entries) {
@@ -189,6 +191,25 @@ function callAlgo() {
   }
 }
 
+function generateRandomWalls(row, col, mat) {
+  resetMatrix();
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+      let int = getRandomInteger(-1, 1);
+      if (int === -1) {
+        const entry = document.querySelector(`[row="${i}"][col="${j}"]`);
+        if (entry == startNode || entry == destinationNode) continue;
+        else {
+          mat[i][j] = -1;
+          entry.classList.toggle("wall");
+        }
+      } else {
+        mat[i][j] = 1;
+      }
+    }
+  }
+}
+
 function runAnimation(list) {
   let len = list.length;
   for (let i=0;i<len;i++) {
@@ -201,11 +222,20 @@ function runAnimation(list) {
       entry.classList.add("endPoint");
       continue;
     }
-    setTimeout(() => {
-      setClass(i, entry, len-1);
-    }, i * speed);
+    timeOuts.push(
+      setTimeout(() => {
+        setClass(i, entry, len-1);
+      }, i * speed)
+    );
   }
   running = false;
+}
+
+function clearAnimations() {
+  for (let i = 0; i < timeOuts.length; i++) {
+    clearTimeout(timeOuts[i]);
+  }
+  timeOuts = [];
 }
 
 function setClass(i, entry, end) {
@@ -213,6 +243,14 @@ function setClass(i, entry, end) {
     entry.classList.remove("destination", "start");
     entry.classList.add("path");
   }
+}
+
+function getRandomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+function callGenerateRandomWalls() {
+  generateRandomWalls(row, col, mat);
 }
 
 function setEntryType(type) {
@@ -228,3 +266,4 @@ window.setEntryType = setEntryType;
 window.callAlgo = callAlgo;
 window.resetMatrix = resetMatrix;
 window.setSpeed = setSpeed;
+window.callGenerateRandomWalls = callGenerateRandomWalls;
