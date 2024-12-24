@@ -6,7 +6,8 @@ function setMatrix(mat, m, n, row, col) { // this is using euclidian distance fo
       } else {
         let r = Math.abs(m - i);
         let c = Math.abs(n - j);
-        mat[i][j] = r*r + c*c;
+        mat[i][j] = Math.sqrt(r*r + c*c); 
+        // mat[i][j] = 1 * (r + c) + (Math.sqrt(2) - 2*1) * Math.min(r, c);  // Diagonal Distance formulae
       }
     }
   }

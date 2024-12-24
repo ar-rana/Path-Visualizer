@@ -131,9 +131,11 @@ function resetMatrix() {
   if (destinationNode) destinationNode.classList.add("destination");
 }
 
-
 function callAlgo() {
-  if (running) return;
+  if (running) {
+    return;
+  };
+  resetPath();
   running = true;
   let i;
   let j;
@@ -156,7 +158,9 @@ function callAlgo() {
     }
   }
 
-  let copy = mat;
+  const copy = mat.map(row => [...row]); // we are not doing "copy = mat" because it goes by reference not val; 
+  console.log("copy mat: ", copy);
+  console.log("matrix: ", mat);
 
   if (text === "deapthFirstSearch") {
     let result = [];
@@ -193,8 +197,10 @@ function callAlgo() {
     runAnimation(nodes);
   } else if (text === "minimumSpanningTree") {
     let queue = new PriorityQueue();
+    // let queue = new Queue();
     let path = new Queue();
-    let nodes = callKruskal(queue, path, mat, visited, i, j, m, n, row, col);
+    let sortedArr = new PriorityQueue();
+    let nodes = callKruskal(queue, path, sortedArr, copy, visited, i, j, m, n, row, col);
     console.log("nodes: ", nodes);
 
     runAnimation(nodes);
@@ -223,6 +229,10 @@ function generateRandomWalls(row, col, mat) {
 }
 
 function runAnimation(list) {
+  if (list === null || list === -1) {
+    running = false;
+    return;
+  }
   let len = list.length;
   for (let i=0;i<len;i++) {
     let r = list[i][0];
@@ -240,6 +250,19 @@ function runAnimation(list) {
       }, i * speed)
     );
   }
+
+  running = false;
+}
+
+function resetPath() {
+  if (running) return;
+  const entries = grid.children;
+  for (let entry of entries) {
+    entry.classList.remove("path", "endPoint");
+  }
+
+  if (startNode) startNode.classList.add("start");
+  if (destinationNode) destinationNode.classList.add("destination");
 }
 
 function clearAnimations() {

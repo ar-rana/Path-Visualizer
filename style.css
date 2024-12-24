@@ -138,8 +138,11 @@
     background-color: yellow;
   }
   6% {
-    background-color: #c5b7ff;
+    background-color: #dfd7fd;
     scale: 1;
+  }
+  25% {
+    background-color: #c2b3ff;
   }
   100% {
     background-color: #a294f9;
