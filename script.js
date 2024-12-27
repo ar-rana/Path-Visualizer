@@ -226,33 +226,9 @@ function runAnimation(list, result) {
     );
   }
 
-  if (result != null) {
-    if (list.length >= 400) {
-      setTimeout(() => {
-        runShortestAnimation(result);
-      }, 19000);
-    } else if (list.length >= 300) {
-      setTimeout(() => {
-        runShortestAnimation(result);
-      }, 14000);
-    }  else if (list.length >= 200) {
-      setTimeout(() => {
-        runShortestAnimation(result);
-      }, 10000);
-    } else if (list.length >= 100) {
-      setTimeout(() => {
-        runShortestAnimation(result);
-      }, 6000);
-    } else if (list.length >= 50) {
-      setTimeout(() => {
-        runShortestAnimation(result);
-      }, 3500);
-    } else {
-      setTimeout(() => {
-        runShortestAnimation(result);
-      }, 2000);
-    }
-  }  
+  setTimeout(() => {
+    runShortestAnimation(result);
+  }, (len+12)*speed);
 
   running = false;
 }

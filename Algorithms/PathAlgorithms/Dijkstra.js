@@ -67,6 +67,7 @@ function Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col,
       }
     }
   }
+  nodes.push(...queue.getQueue());
   return false;
 }
 

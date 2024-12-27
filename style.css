@@ -155,14 +155,13 @@
 @keyframes shortestPathAnimation {
   0% {
     background-color: yellow;
-    scale: 0.5;
-  }
-  7% {
-    background-color: yellow;
     scale: 1.3;
   }
-  100% {
+  25% {
+    background-color: yellow;
     scale: 1;
+  }
+  100% {
     background-color: yellow;
   }
 }
