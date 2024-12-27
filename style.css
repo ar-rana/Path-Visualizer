@@ -61,6 +61,8 @@
 }
 
 .visited {
+  animation: shortestPathAnimation 1.5s forwards !important;
+  background-color: #a294f9;
 }
 
 .path {
@@ -69,17 +71,17 @@
 }
 
 .start {
-  background-color: rgb(93, 235, 50);
+  background-color: rgb(93, 235, 50) !important;
   border-color: rgb(2, 126, 10);
 }
 
 .destination {
-  background-color: rgb(50, 232, 235);
+  background-color: rgb(50, 232, 235) !important;
   border-color: rgb(2, 126, 126);
 }
 
 .wall {
-  background-color: rgb(235, 50, 50);
+  background-color: rgb(235, 50, 50) !important;
   border-color: rgb(126, 2, 2);
 }
 
@@ -94,7 +96,7 @@
   border: none;
   padding: 5px 15px;
   border-radius: 20px;
-  margin: 0 5px;
+  margin: 5px 5px;
   box-shadow: 1px 1px #ffffff, 1px 1px #ffffff, 2px 2px #ffffff, 2px 2px #ffffff,
     2px 2px #ffffff, 3px 3px #ffffff, 3px 3px #ffffff, 4px 4px #ffffff;
 }
@@ -108,9 +110,9 @@
 .btn2 {
   background-color: rgb(231, 204, 163);
   border: none;
-  padding: 5px 15px;
+  padding: 7px 15px;
   border-radius: 20px;
-  margin: 0 5px;
+  margin: 5px 5px;
   box-shadow: 1px 1px black, 1px 1px black, 2px 2px black, 2px 2px black,
     2px 2px black, 3px 3px black, 3px 3px black, 4px 4px black;
 }
@@ -142,10 +144,26 @@
     scale: 1;
   }
   25% {
-    background-color: #c2b3ff;
+    background-color: #c5b8fc;
   }
   100% {
     background-color: #a294f9;
+  }
+}
+
+
+@keyframes shortestPathAnimation {
+  0% {
+    background-color: yellow;
+    scale: 0.5;
+  }
+  7% {
+    background-color: yellow;
+    scale: 1.3;
+  }
+  100% {
+    scale: 1;
+    background-color: yellow;
   }
 }
 

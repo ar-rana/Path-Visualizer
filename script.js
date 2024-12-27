@@ -6,7 +6,6 @@ import dfs from "./Algorithms/PathAlgorithms/DFS.js";
 import bfs from "./Algorithms/PathAlgorithms/BFS.js";
 import callGreedyBFS from "./Algorithms/PathAlgorithms/greedyBFS.js";
 import callDijkstra from "./Algorithms/PathAlgorithms/Dijkstra.js";
-import callKruskal from "./Algorithms/PathAlgorithms/kruskal.js";
 import callAStar from "./Algorithms/PathAlgorithms/AStar.js";
 import aStarSearch from "./Algorithms/PathAlgorithms/A_Star.js";
 
@@ -14,7 +13,6 @@ let mat = [];
 let running = false;
 
 const grid = document.getElementById("grid");
-const screen = document.getElementById("screen");
 const selectOptions = document.getElementById("selectTab");
 
 let entryType = "";
@@ -57,16 +55,8 @@ function setMatrixNodes() {
         node.classList.add(entryType);
         startNode = node;
         mat[node.getAttribute("row")][node.getAttribute("col")] = 1;
-        console.log(
-          "c: ",
-          node.getAttribute("col"),
-          "r: ",
-          node.getAttribute("row")
-        );
-        console.log(
-          "mat: ",
-          mat[node.getAttribute("row")][node.getAttribute("col")]
-        );
+        // console.log("col: ", node.getAttribute("col"), "row: ", node.getAttribute("row"));
+
       } else if (entryType === "destination") {
         if (node == startNode) {
           startNode = null;
@@ -78,16 +68,8 @@ function setMatrixNodes() {
         node.classList.add(entryType);
         destinationNode = node;
         mat[node.getAttribute("row")][node.getAttribute("col")] = 1;
-        console.log(
-          "c: ",
-          node.getAttribute("col"),
-          "r: ",
-          node.getAttribute("row")
-        );
-        console.log(
-          "mat: ",
-          mat[node.getAttribute("row")][node.getAttribute("col")]
-        );
+        // console.log("col: ", node.getAttribute("col"), "row: ", node.getAttribute("row"));
+
       } else if (entryType === "wall") {
         if (node == startNode) {
           startNode = null;
@@ -98,17 +80,9 @@ function setMatrixNodes() {
         node.classList.remove("destination", "start");
         node.classList.toggle(entryType);
         mat[node.getAttribute("row")][node.getAttribute("col")] =
-          mat[node.getAttribute("row")][node.getAttribute("col")] === 1 ? -1 : 1;
-        console.log(
-          "c: ",
-          node.getAttribute("col"),
-          "r: ",
-          node.getAttribute("row")
-        );
-        console.log(
-          "mat: ",
-          mat[node.getAttribute("row")][node.getAttribute("col")]
-        );
+        mat[node.getAttribute("row")][node.getAttribute("col")] === 1 ? -1 : 1;
+        // console.log("col: ", node.getAttribute("col"), "row: ", node.getAttribute("row"));
+
       }
     });
     node.setAttribute("col", i % col);
@@ -125,19 +99,15 @@ function resetMatrix() {
   setMatrix();
   const entries = grid.children;
   for (let entry of entries) {
-    entry.classList.remove("wall", "path", "endPoint");
+    entry.classList.remove("wall", "path", "endPoint", "visited");
   }
-  // TO-DO : Design Decision
-  // wont need this if you dont apply 'endPoint' class at runAnimation()
   if (startNode) startNode.classList.add("start");
   if (destinationNode) destinationNode.classList.add("destination");
 }
 
 function callAlgo() {
-  if (running) {
-    return;
-  };
   resetPath();
+  clearAnimations();
   running = true;
   let i;
   let j;
@@ -146,7 +116,6 @@ function callAlgo() {
   let visited = [];
   var text = selectOptions.options[selectOptions.selectedIndex].value;
   if (text === "") return;
-  console.log("option: ", text);
   if (startNode === null || destinationNode === null) return;
   i = Number(startNode.getAttribute("row"));
   j = Number(startNode.getAttribute("col"));
@@ -160,50 +129,56 @@ function callAlgo() {
     }
   }
 
+  let shortestPath = [];
   const copy = mat.map(row => [...row]); // we are not doing "copy = mat" because it goes by reference not val; 
 
   if (text === "deapthFirstSearch") {
     let result = [];
     let queue = new Queue();
-    dfs(queue, copy, visited, i, j, result, m, n);
-    console.log("result: ", result[0]);
-    console.log("len: ", result.length);
-    console.log("queue: ", queue.getQueue());
 
-    runAnimation(result[0]); // result will have multiple queue's one of them will be the shortest path through DFS
+    dfs(queue, copy, visited, i, j, result, m, n, shortestPath);
+
+    runAnimation(result[0], result[0]);
+
   } else if (text === "breathFirstSearch") {
     let queue = new Queue();
     let path = new Queue();
-    bfs(path, queue, copy, visited, i, j, m, n)
-    console.log("path: ", path.getQueue());
-    console.log("queue: ", queue.getQueue());
+    if (bfs(path, queue, copy, visited, i, j, m, n, row, col, shortestPath)) {
+      runAnimation(path.getQueue(), shortestPath);
+    } else {
+      runAnimation(path.getQueue(), null);
+    }
 
-    runAnimation(path.getQueue());
   } else if (text === "greedyBreathFirstSearch") {
     let queue = new PriorityQueue();
     let path = new Queue();
-    path = callGreedyBFS(queue, path, copy, visited, i, j, m, n, row, col);
-    console.log("path: ", path.getQueue());
+    if (callGreedyBFS(queue, path, copy, visited, i, j, m, n, row, col, shortestPath)) {
+      runAnimation(path.getQueue(), shortestPath);
+    } else {
+      runAnimation(path.getQueue(), null);
+    }
 
-    runAnimation(path.getQueue());
   } else if (text === "dijkastraAlgorithm") {
     let queue = new PriorityQueue();
-    let shortestPath = [];
     let path = new PriorityQueue();
-    let nodes = callDijkstra(queue, shortestPath, path, copy, visited, i, j, m, n, row, col);
-    console.log("shortestPath: ", shortestPath);
-    console.log("nodes: ", nodes);
+    let nodes = [];
+    if (callDijkstra(queue, shortestPath, path, copy, visited, i, j, m, n, row, col, nodes)) {
+      runAnimation(nodes, shortestPath);
+    } else {
+      runAnimation(nodes, null);
+    }
 
-    runAnimation(nodes);
   } else if (text === "aStarAlgorithm") {
     let queue = new Queue();
     let pQueue = new PriorityQueue();
-    // let shortestPath = aStarSearch(copy, [i, j], [m, n], row, col, queue, visited, pQueue);
-    let shortestPath = callAStar(pQueue, queue, copy, visited, i, j, m, n, row, col);
-    console.log("shortest path: ", shortestPath);
-    console.log("nodes: ", queue.getQueue());
+    // shortestPath = aStarSearch(copy, [i, j], [m, n], row, col, queue, visited, pQueue);
+    // runAnimation(queue.getQueue(), shortestPath);
+    if (callAStar(pQueue, queue, copy, visited, i, j, m, n, row, col, shortestPath)) {
+      runAnimation(queue.getQueue(), shortestPath);
+    } else {
+      runAnimation(queue.getQueue(), null);
+    }
 
-    runAnimation(queue.getQueue());
   }
 }
 
@@ -228,11 +203,12 @@ function generateRandomWalls(row, col, mat) {
   }
 }
 
-function runAnimation(list) {
+function runAnimation(list, result) {
   if (list === null || list === -1) {
     running = false;
     return;
   }
+  console.log('path size', list.length);
   let len = list.length;
   for (let i=0;i<len;i++) {
     let r = list[i][0];
@@ -242,7 +218,6 @@ function runAnimation(list) {
     if (entry != null && (entry == startNode || entry == destinationNode)) {
       entry.classList.remove("destination", "start");
       entry.classList.add("endPoint");
-      continue;
     }
     timeOuts.push(
       setTimeout(() => {
@@ -251,14 +226,57 @@ function runAnimation(list) {
     );
   }
 
+  if (result != null) {
+    if (list.length >= 400) {
+      setTimeout(() => {
+        runShortestAnimation(result);
+      }, 19000);
+    } else if (list.length >= 300) {
+      setTimeout(() => {
+        runShortestAnimation(result);
+      }, 14000);
+    }  else if (list.length >= 200) {
+      setTimeout(() => {
+        runShortestAnimation(result);
+      }, 10000);
+    } else if (list.length >= 100) {
+      setTimeout(() => {
+        runShortestAnimation(result);
+      }, 5000);
+    } else if (list.length >= 50) {
+      setTimeout(() => {
+        runShortestAnimation(result);
+      }, 3500);
+    } else {
+      setTimeout(() => {
+        runShortestAnimation(result);
+      }, 2000);
+    }
+  }  
+
   running = false;
+}
+
+function runShortestAnimation(list) {
+  let len = list.length;
+  for (let i=0;i<len;i++) {
+    let r = list[i][0];
+    let c = list[i][1];
+    const entry = document.querySelector(`[row="${r}"][col="${c}"]`);
+      setTimeout(() => {
+        if (entry != null) {
+          entry.classList.remove("path");
+          entry.classList.add("visited");
+        }
+      }, i * speed-10);
+  }
 }
 
 function resetPath() {
   if (running) return;
   const entries = grid.children;
   for (let entry of entries) {
-    entry.classList.remove("path", "endPoint");
+    entry.classList.remove("path", "endPoint", "visited");
   }
 
   if (startNode) startNode.classList.add("start");
@@ -273,7 +291,7 @@ function clearAnimations() {
 }
 
 function setClass(i, entry, end) {
-  if (i !=0 && i!=end) {
+  if (entry != null && i !=0 && i!=end) {
     entry.classList.remove("destination", "start");
     entry.classList.add("path");
   }
@@ -292,7 +310,6 @@ function setEntryType(type) {
 }
 
 function setSpeed(value) {
-  console.log(value);
   speed = value;
 }
 

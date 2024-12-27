@@ -1,5 +1,13 @@
-function bfs(path, queue2, mat, visited, i, j, k, l) {
+function bfs(path, queue2, mat, visited, i, j, k, l, row, col, shortestPath) {
     queue2.enqueue([i, j]);
+
+    const pathMat = Array.from({ length: row }, () => Array(col).fill(null));
+    const adjecent = [
+        [1, 0],
+        [-1, 0],
+        [0, 1],
+        [0, -1]
+    ];
 
     while(!queue2.isEmpty()) {
         let pos = queue2.dequeue();
@@ -14,14 +22,27 @@ function bfs(path, queue2, mat, visited, i, j, k, l) {
         path.enqueue([m, n]);
         visited[m][n] = true;
 
-        if (m === k && n === l) break;
+        if (m === k && n === l) {
+            let ele = [k, l];
+            while (ele != null) {
+                shortestPath.push(ele);
+                ele = pathMat[ele[0]][ele[1]];
+            }
+            shortestPath.reverse();
+            return true;
+        };
 
-        queue2.enqueue([m, n + 1]); 
-        queue2.enqueue([m + 1, n]); 
-        queue2.enqueue([m - 1, n]); 
-        queue2.enqueue([m, n - 1]);
+        for (let [a, b] of adjecent) {
+            let x = m+a;
+            let y = n+b;
+      
+            if ( x >= 0 && x < mat.length && y >= 0 && y < mat[0].length && !visited[x][y]) {
+                queue2.enqueue([x, y]);
+                pathMat[x][y] = [m, n];
+            }
+        }
     }
-    
+    return false;
 }
 
 

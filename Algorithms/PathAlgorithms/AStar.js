@@ -4,15 +4,15 @@ function calculateHValue(i, j, m, n) {
   return Math.sqrt(r * r + c * c);
 }
 
-function callAStar(pQueue, queue, mat, visited, i, j, m, n, row, col) {
+function callAStar(pQueue, queue, mat, visited, i, j, m, n, row, col, shortestPath) {
   // this is cost matrix initially set to infinity for all nodes
   const costMat = Array.from({ length: row }, () => Array(col).fill(Number.MAX_SAFE_INTEGER));
   costMat[i][j] = 0; // cost from (i,j) to itself will always be 0
 
-  return AStar(pQueue, queue, mat, costMat, visited, i, j, m, n, row, col);
+  return AStar(pQueue, queue, mat, costMat, visited, i, j, m, n, row, col, shortestPath);
 }
 
-function AStar(pQueue, queue, mat, costMat, visited, i, j, m, n, row, col) {
+function AStar(pQueue, queue, mat, costMat, visited, i, j, m, n, row, col, shortestPath) {
   const adj = [
     [1, 0],
     [-1, 0],
@@ -21,7 +21,6 @@ function AStar(pQueue, queue, mat, costMat, visited, i, j, m, n, row, col) {
   ];
 
   pQueue.enqueue([i, j], 0);
-  let shortestPath = [];
   const pathMat = Array.from({ length: row }, () => Array(col).fill(null));
 
   while (!pQueue.isEmpty()) {
@@ -53,7 +52,7 @@ function AStar(pQueue, queue, mat, costMat, visited, i, j, m, n, row, col) {
       }
       shortestPath.reverse();
 
-      return shortestPath;
+      return true;
     }
 
     for (let [x, y] of adj) {
@@ -79,52 +78,7 @@ function AStar(pQueue, queue, mat, costMat, visited, i, j, m, n, row, col) {
       }
     }
   }
-  return null;
+  return false;
 }
 
 export default callAStar;
-
-
-class TreeNode {
-  constructor(val, PRN) {
-    this.left = null;
-    this.right = null;
-    this.val = val;
-    this.PRN = PRN;
-  }
-}
-
-class MinHeap {
-  constructor() {
-    this.root = null;
-  }
-
-  insert(val, PRN) {
-    if (this.root === null) this.root = insertInHeap(this.root, val, PRN);
-    else if (PRN >= this.root.PRN) {
-      this.root = this.insertInHeap(this.root, val, PRN);
-    } else {
-      this.root = this.insertInHeap(this.root, val, PRN);
-    }
-  }
-
-  pop() {
-
-  }
-
-  insertInHeap(root, val, PRN) {
-    if (root === null) return new TreeNode(val, PRN);
-    if (root.PRN >= PRN) {
-      const temp = new TreeNode(val, PRN);
-
-      return temp;
-    }
-
-    root.left = this.insertInHeap(root.left, val, PRN);
-    root.right = this.insertInHeap(root.right, val, PRN);
-  }
-
-  popFromHeap(root) {
-    
-  }
-}

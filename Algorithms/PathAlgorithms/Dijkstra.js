@@ -12,13 +12,13 @@ function setMatrix(mat, k, l, row, col) {
   return mat;
 }
 
-function callDijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col) {
+function callDijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col, nodes) {
   setMatrix(mat, i, j, row, col);
 
-  return Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col);
+  return Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col, nodes);
 }
 
-function Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col) {
+function Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col, nodes) {
   const adjecent = [
     [1, 0],
     [-1, 0],
@@ -47,7 +47,8 @@ function Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col)
         ele = pathMat[ele[0]][ele[1]];
       }
       shortestPath.reverse();
-      return getVisitedNodes(queue.getQueue(), m, n);
+      nodes.push(...getVisitedNodes(queue.getQueue(), m, n));
+      return true;
     }
 
     for (let [a, b] of adjecent) {
@@ -66,7 +67,7 @@ function Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col)
       }
     }
   }
-  return null;
+  return false;
 }
 
 function getVisitedNodes(queue, m, n) {
