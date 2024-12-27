@@ -15,7 +15,7 @@ class PriorityQueue {
     enqueue(item, PRN) {
         let node = new Node(item, PRN);
         if (this.root === null) this.root = node;
-        else if (this.root.PRN > node.PRN) {
+        else if (this.root.PRN >= node.PRN) {
             node.next = this.root;
             this.root = node;
         }

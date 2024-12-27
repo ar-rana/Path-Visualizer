@@ -7,6 +7,8 @@ import bfs from "./Algorithms/PathAlgorithms/BFS.js";
 import callGreedyBFS from "./Algorithms/PathAlgorithms/greedyBFS.js";
 import callDijkstra from "./Algorithms/PathAlgorithms/Dijkstra.js";
 import callKruskal from "./Algorithms/PathAlgorithms/kruskal.js";
+import callAStar from "./Algorithms/PathAlgorithms/AStar.js";
+import aStarSearch from "./Algorithms/PathAlgorithms/A_Star.js";
 
 let mat = [];
 let running = false;
@@ -159,8 +161,6 @@ function callAlgo() {
   }
 
   const copy = mat.map(row => [...row]); // we are not doing "copy = mat" because it goes by reference not val; 
-  console.log("copy mat: ", copy);
-  console.log("matrix: ", mat);
 
   if (text === "deapthFirstSearch") {
     let result = [];
@@ -170,7 +170,7 @@ function callAlgo() {
     console.log("len: ", result.length);
     console.log("queue: ", queue.getQueue());
 
-    runAnimation(result[0]); // result will have multiple queue's one of them willbe the shortest path through DFS
+    runAnimation(result[0]); // result will have multiple queue's one of them will be the shortest path through DFS
   } else if (text === "breathFirstSearch") {
     let queue = new Queue();
     let path = new Queue();
@@ -195,15 +195,15 @@ function callAlgo() {
     console.log("nodes: ", nodes);
 
     runAnimation(nodes);
-  } else if (text === "minimumSpanningTree") {
-    let queue = new PriorityQueue();
-    // let queue = new Queue();
-    let path = new Queue();
-    let sortedArr = new PriorityQueue();
-    let nodes = callKruskal(queue, path, sortedArr, copy, visited, i, j, m, n, row, col);
-    console.log("nodes: ", nodes);
+  } else if (text === "aStarAlgorithm") {
+    let queue = new Queue();
+    let pQueue = new PriorityQueue();
+    // let shortestPath = aStarSearch(copy, [i, j], [m, n], row, col, queue, visited, pQueue);
+    let shortestPath = callAStar(pQueue, queue, copy, visited, i, j, m, n, row, col);
+    console.log("shortest path: ", shortestPath);
+    console.log("nodes: ", queue.getQueue());
 
-    runAnimation(nodes);
+    runAnimation(queue.getQueue());
   }
 }
 
