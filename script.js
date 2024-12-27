@@ -138,7 +138,7 @@ function callAlgo() {
 
     dfs(queue, copy, visited, i, j, result, m, n, shortestPath);
 
-    runAnimation(result[0], result[0]);
+    runAnimation(queue.getQueue(), result[0]);
 
   } else if (text === "breathFirstSearch") {
     let queue = new Queue();
@@ -242,7 +242,7 @@ function runAnimation(list, result) {
     } else if (list.length >= 100) {
       setTimeout(() => {
         runShortestAnimation(result);
-      }, 5000);
+      }, 6000);
     } else if (list.length >= 50) {
       setTimeout(() => {
         runShortestAnimation(result);
