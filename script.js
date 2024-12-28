@@ -11,9 +11,13 @@ import aStarSearch from "./Algorithms/PathAlgorithms/A_Star.js";
 
 let mat = [];
 let running = false;
+let idx = 0;
 
 const grid = document.getElementById("grid");
 const selectOptions = document.getElementById("selectTab");
+const screen = document.getElementById("screen");
+const pointer = document.getElementById("pointer");
+const inst = document.getElementById("instuction");
 
 let entryType = "";
 let startNode = null;
@@ -25,9 +29,23 @@ const row = 12;
 const col = 42;
 let entries = row * col;
 
+const instructions = [
+  "Tutorial - Click Next",
+  "Click on 'Start' to select a starting point",
+  "Now click anywhere on the grid to place the start node",
+  "Click on 'Destination' to select a ending point",
+  "Now click anywhere on the grid to place the end node",
+  "You can also click on 'Wall' to place walls",
+  "Select a Path Finding Algorithm from here",
+  "Now click 'Run Algorithm' to visualize it",
+  "You can select visualization speed here",
+  "and generate a random grid of walls here",
+  "click 'ResetMatrix' to remove all unwanted nodes"
+];
 
 setMatrix();
 setMatrixNodes();
+callTutorial();
 
 function setMatrix() {
   for (let i = 0; i < row; i++) {
@@ -259,6 +277,77 @@ function resetPath() {
   if (destinationNode) destinationNode.classList.add("destination");
 }
 
+function callTutorial() {
+  if (idx === 0) {
+    setTutorialListners();
+    screen.style.opacity = '0.3';
+  }
+  inst.innerText = instructions[idx];
+
+  pointer.style.height = '7.5%';
+  if (idx === 1 || idx === 3 || idx === 5) {
+    // navbar
+    pointer.style.top = '1.5%';
+    pointer.style.width= '10%';
+    if (idx === 3) {
+      pointer.style.left = '73%'; // destination
+    } else if (idx === 1 ) {
+      pointer.style.left = '64% '; // start
+    } else {
+      pointer.style.left = '82%'; // wall
+    }
+  } else if (idx === 2 || idx === 4) {
+    // grid
+    pointer.style.top = '25%';
+    pointer.style.width= '93%';
+    pointer.style.height = '55%';
+    pointer.style.left = '3%';
+  } else if (idx === 6 || idx === 7) {
+    // select menu
+    pointer.style.top = '82%';
+    pointer.style.width= '20%';
+    if (idx === 6) {
+      pointer.style.left = '10%'; // algo
+    } else {
+      pointer.style.left = '72%'; // run
+    }
+  } else {
+    // options menu
+    pointer.style.top = '12.3%';
+    pointer.style.width= '15%';
+    if (idx === 8) {
+      pointer.style.left = '8%'; // speed
+    } else if (idx === 9) {
+      pointer.style.left = '43%'; // walls
+    } else {
+      pointer.style.left = '76%'; // reset
+    }
+  }
+}
+
+function setTutorialListners() {
+  const tut = document.getElementById('tutorial-container');
+  const skip = document.getElementById('skip');
+  const next = document.getElementById('next');
+
+  skip.addEventListener("click", () => {
+    screen.style.opacity = '1';
+    tut.style.display = 'none';
+  });
+  
+  next.addEventListener("click", () => {
+    if (idx == 0) pointer.style.display = 'block';
+    idx++;
+    if (idx == 1) inst.style.fontSize = 'large';
+
+    if (idx == instructions.length) {
+      screen.style.opacity = '1';
+      tut.style.display = 'none';
+    }
+    callTutorial();
+  });
+}
+
 function clearAnimations() {
   for (let i = 0; i < timeOuts.length; i++) {
     clearTimeout(timeOuts[i]);
@@ -294,3 +383,14 @@ window.callAlgo = callAlgo;
 window.resetMatrix = resetMatrix;
 window.setSpeed = setSpeed;
 window.callGenerateRandomWalls = callGenerateRandomWalls;
+
+
+
+// navbar: top -> 1.5% || width -> 10%; || height: 7.5%;
+// =>> s -> 64% || d -> 73% || w -> 82%
+// options: top -> 12.3%; || width -> 15% || height: 7.5%;
+// =>> ss -> 8% || rw -> 43% || rm -> 76%
+// select: top -> 82% || width -> 20% || height: 7.5%;
+// =>> run -> 72% || algo -> 10%
+// grid: top -> 25% || width -> 93% || height: 55%;
+
