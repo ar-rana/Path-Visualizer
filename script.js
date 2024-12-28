@@ -244,9 +244,11 @@ function runAnimation(list, result) {
     );
   }
 
-  setTimeout(() => {
-    runShortestAnimation(result);
-  }, (len+12)*speed);
+  timeOuts.push(
+    setTimeout(() => {
+      runShortestAnimation(result);
+    }, (len+12)*speed)
+  );
 
   running = false;
 }
