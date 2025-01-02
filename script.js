@@ -7,7 +7,7 @@ import bfs from "./Algorithms/PathAlgorithms/BFS.js";
 import callGreedyBFS from "./Algorithms/PathAlgorithms/greedyBFS.js";
 import callDijkstra from "./Algorithms/PathAlgorithms/Dijkstra.js";
 import callAStar from "./Algorithms/PathAlgorithms/AStar.js";
-import aStarSearch from "./Algorithms/PathAlgorithms/A_Star.js";
+import BidirectionalSearch from "./Algorithms/PathAlgorithms/Bidirectional.js";
 
 let mat = [];
 let running = false;
@@ -33,7 +33,7 @@ const instructions = [
   "Tutorial - Click Next",
   "Click on 'Start' to select a starting point",
   "Now click anywhere on the grid to place the start node",
-  "Click on 'Destination' to select a ending point",
+  "Click on 'Destination' to select an ending point",
   "Now click anywhere on the grid to place the end node",
   "You can also click on 'Wall' to place walls",
   "Select a Path Finding Algorithm from here",
@@ -177,7 +177,7 @@ function callAlgo() {
     }
 
   } else if (text === "dijkastraAlgorithm") {
-    let queue = new PriorityQueue();
+    let queue = new Queue();
     let path = new PriorityQueue();
     let nodes = [];
     if (callDijkstra(queue, shortestPath, path, copy, visited, i, j, m, n, row, col, nodes)) {
@@ -197,6 +197,17 @@ function callAlgo() {
       runAnimation(queue.getQueue(), null);
     }
 
+  } else if (text === "bidirectionalAlgorithm") {
+    let path = new Queue();
+
+    let bidirectional = new BidirectionalSearch(row, col, shortestPath, path, copy);
+    bidirectional.bidirectionalBFS([i, j], [m, n]);
+
+    if (bidirectional.found) {
+      runAnimation(path.getQueue(), shortestPath);
+    } else {
+      runAnimation(path.getQueue(), null);
+    }
   }
 }
 
@@ -226,7 +237,7 @@ function runAnimation(list, result) {
     running = false;
     return;
   }
-  console.log('path size', list.length);
+  console.log('Path size:', list.length);
   let len = list.length;
   for (let i=0;i<len;i++) {
     let r = list[i][0];
@@ -244,11 +255,13 @@ function runAnimation(list, result) {
     );
   }
 
-  timeOuts.push(
-    setTimeout(() => {
-      runShortestAnimation(result);
-    }, (len+12)*speed)
-  );
+  if (result != null){
+    timeOuts.push(
+      setTimeout(() => {
+        runShortestAnimation(result);
+      }, (len+12)*speed)
+    );
+  }
 
   running = false;
 }

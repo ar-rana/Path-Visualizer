@@ -27,7 +27,7 @@ function Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col,
   ];
 
   path.enqueue([i, j], mat[i][j]);
-  queue.enqueue([i, j], mat[i][j]);
+  queue.enqueue([i, j]);
 
   const pathMat = Array.from({ length: row }, () => Array(col).fill(null));
 
@@ -47,7 +47,7 @@ function Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col,
         ele = pathMat[ele[0]][ele[1]];
       }
       shortestPath.reverse();
-      nodes.push(...getVisitedNodes(queue.getQueue(), m, n));
+      nodes.push(...queue.getQueue());
       return true;
     }
 
@@ -61,7 +61,7 @@ function Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col,
         if (val < mat[x][y]) {
           mat[x][y] = val;
           path.enqueue([x, y], val);
-          queue.enqueue([x, y], val);
+          queue.enqueue([x, y]);
           pathMat[x][y] = [k, l];
         }
       }
@@ -69,17 +69,6 @@ function Dijkstra(queue, shortestPath, path, mat, visited, i, j, m, n, row, col,
   }
   nodes.push(...queue.getQueue());
   return false;
-}
-
-function getVisitedNodes(queue, m, n) {
-  let path = [];
-  for (let [a,b] of queue) {
-    path.push([a,b])
-    if (a === m && b === n) {
-      return path;
-    }
-  }
-  return null;
 }
 
 export default callDijkstra;
