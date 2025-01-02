@@ -153,11 +153,17 @@ function callAlgo() {
   if (text === "deapthFirstSearch") {
     let result = [];
     let queue = new Queue();
+    let len = Number.MAX_SAFE_INTEGER;
 
     dfs(queue, copy, visited, i, j, result, m, n, shortestPath);
 
-    runAnimation(queue.getQueue(), result[0]);
-
+    console.log("result: ", result);
+    console.log("shortestPath: ", shortestPath);
+    if (shortestPath.length > 0) {
+      runAnimation(result[0], shortestPath[0]);
+    } else {
+      runAnimation(queue.getQueue(), null);
+    }
   } else if (text === "breathFirstSearch") {
     let queue = new Queue();
     let path = new Queue();

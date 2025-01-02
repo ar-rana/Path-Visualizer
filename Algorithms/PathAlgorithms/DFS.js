@@ -1,4 +1,6 @@
-let stack = [];
+import Stack from "../Stack/Stack.js";
+
+let stack = new Stack();
 let len = Number.MAX_SAFE_INTEGER;
 
 function dfs(queue, mat, visited, i, j, result, m, n, shortestPath) {
@@ -10,10 +12,8 @@ function dfs(queue, mat, visited, i, j, result, m, n, shortestPath) {
 
     if (i===m && j===n) { // destination entry
         queue.enqueue([i, j]);
-        stack.push([i, j]);
-        // result.push(queue.getQueue());
-        const copy = stack.splice(0, stack.length);
-        result.push([...copy]);
+        result.push(queue.getQueue());
+        shortestPath.push(stack.getStack());
         return;
     }
 
@@ -21,10 +21,10 @@ function dfs(queue, mat, visited, i, j, result, m, n, shortestPath) {
     queue.enqueue([i, j]); // queue to store all paths explored sequentially
     stack.push([i, j]);
 
-    dfs(queue, mat, visited, i+1, j, result, m, n);
-    dfs(queue, mat, visited, i, j+1, result, m, n);
-    dfs(queue, mat, visited, i-1, j, result, m, n);
-    dfs(queue, mat, visited, i, j-1, result, m, n);
+    dfs(queue, mat, visited, i+1, j, result, m, n, shortestPath);
+    dfs(queue, mat, visited, i, j+1, result, m, n, shortestPath);
+    dfs(queue, mat, visited, i-1, j, result, m, n, shortestPath);
+    dfs(queue, mat, visited, i, j-1, result, m, n, shortestPath);
 
     stack.pop();
 }
