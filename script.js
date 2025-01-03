@@ -157,8 +157,6 @@ function callAlgo() {
 
     dfs(queue, copy, visited, i, j, result, m, n, shortestPath);
 
-    console.log("result: ", result);
-    console.log("shortestPath: ", shortestPath);
     if (shortestPath.length > 0) {
       runAnimation(result[0], shortestPath[0]);
     } else {

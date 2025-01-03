@@ -183,7 +183,7 @@
   width: 550px;
   height: 280px;
   background-color: beige;
-  border: solid 2px gray;
+  border: solid 3px rgb(255, 0, 0);
   box-sizing: border-box;
 }
 
@@ -197,6 +197,7 @@
   top: -10%;
   font-weight: bold;
   font-size: x-large;
+  color: red;
 }
 
 .pointer {
