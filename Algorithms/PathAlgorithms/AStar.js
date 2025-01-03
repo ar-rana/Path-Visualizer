@@ -24,11 +24,9 @@ function AStar(pQueue, queue, mat, costMat, visited, i, j, m, n, row, col, short
   const pathMat = Array.from({ length: row }, () => Array(col).fill(null));
 
   while (!pQueue.isEmpty()) {
-    console.log(pQueue.getPQueue());
     let pos = pQueue.dequeue();
     let k = pos[0];
     let l = pos[1];
-    console.log("k, l", k, l);
 
     if (
       k < 0 ||
